@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { authRoutes } from "./modules/auth/auth.route.js";
 
 dotenv.config();
 
@@ -31,6 +32,11 @@ const connectDB = async () => {
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "🚀 RacoAI Backend Running Successfully!" });
 });
+
+
+//routes
+
+app.use("/auth",authRoutes)
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
