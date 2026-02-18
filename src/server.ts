@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { authRoutes } from "./modules/auth/auth.route.js";
+import { userRoutes } from "./modules/users/user.route.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.get("/", (req: Request, res: Response) => {
 //routes
 
 app.use("/auth",authRoutes)
+app.use("/user",userRoutes)
 
 // 404 Handler
 app.use((req: Request, res: Response) => {

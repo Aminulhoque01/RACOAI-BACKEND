@@ -4,22 +4,33 @@ import { User } from "../users/user.model.js";
 import { ApiError } from "../../utils/ApiError.js";
 
 export const registerUser = async (payload: any) => {
-  const { name, email, password } = payload;
+  const { name, email, password, role } = payload;
+ 
 
   const existing = await User.findOne({ email });
   if (existing) throw new ApiError(400, "Email already exists");
 
   const hashed = await bcrypt.hash(password, 10);
 
+  const allowedRoles = ["ADMIN", "BUYER", "SOLVER"];
+
+  if (role && !allowedRoles.includes(role)) {
+    throw new ApiError(400, "Invalid role");
+  }
+
   const user = await User.create({
     name,
     email,
     password: hashed,
-    role: "SOLVER",
+    role: role || "SOLVER",
   });
 
   return user;
 };
+
+
+
+
 
 export const loginUser = async (payload: any) => {
   const { email, password } = payload;
