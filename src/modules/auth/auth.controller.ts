@@ -6,6 +6,7 @@ import { ApiError } from "../../utils/ApiError.js";
 import { AuthRequest } from "../../middlewares/auth.middleware.js";
 import { User } from "../users/user.model.js";
 
+
 export const register = catchAsync(async (req: Request, res: Response) => {
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) throw new ApiError(400, parsed.error.message);
@@ -21,7 +22,10 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 
 export const login = catchAsync(async (req: Request, res: Response) => {
   const parsed = loginSchema.safeParse(req.body);
-  if (!parsed.success) throw new ApiError(400, parsed.error.message);
+
+  if (!parsed.success) {
+    throw new ApiError(400, parsed.error.message);
+  }
 
   const result = await loginUser(parsed.data);
 
@@ -31,6 +35,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 
 export const me = catchAsync(async (req: AuthRequest, res: Response) => {
   const user = await User.findById(req.user.id).select("-password");

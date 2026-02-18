@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+ import jwt from "jsonwebtoken";
 import { User } from "../users/user.model.js";
 import { ApiError } from "../../utils/ApiError.js";
 
@@ -41,18 +41,21 @@ export const loginUser = async (payload: any) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new ApiError(401, "Invalid credentials");
 
-  if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined");
-  }
+  if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not defined");
+  if (!process.env.JWT_EXPIRES_IN) throw new Error("JWT_EXPIRES_IN is not defined");
 
-  if (!process.env.JWT_EXPIRES_IN) {
-    throw new Error("JWT_EXPIRES_IN is not defined");
-  }
+  // ✅ Type assertions
+  const secret = process.env.JWT_SECRET as string;
+  const expiresIn = process.env.JWT_EXPIRES_IN as string;
 
   const token = jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
-    process.env.JWT_SECRET as string,
-    { expiresIn: process.env.JWT_EXPIRES_IN as string },
+    {
+      id: user._id.toString(),
+      email: user.email,
+      role: user.role,
+    },
+    secret,
+    { expiresIn: '7d' } // string like "7d", "1h", etc.
   );
 
   return { token, user };
