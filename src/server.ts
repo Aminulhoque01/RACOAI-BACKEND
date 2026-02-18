@@ -4,6 +4,11 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { authRoutes } from "./modules/auth/auth.route.js";
 import { userRoutes } from "./modules/users/user.route.js";
+import { projectRoutes } from "./modules/projects/project.route.js";
+import { requestRoutes } from "./modules/requests/request.route.js";
+import { taskRoutes } from "./modules/tasks/task.route.js";
+import path from "path";
+import { submissionRoutes } from "./modules/submissions/submission.route.js";
 
 dotenv.config();
 
@@ -39,6 +44,14 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth",authRoutes)
 app.use("/user",userRoutes)
+app.use("/project",projectRoutes)
+app.use("/request",requestRoutes)
+app.use("/task",taskRoutes)
+app.use("/submission",submissionRoutes)
+
+
+app.use("/uploads", express.static(path.join(process.cwd(), "src/uploads")));
+
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
