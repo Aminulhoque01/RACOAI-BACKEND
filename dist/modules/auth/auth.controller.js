@@ -16,8 +16,9 @@ export const register = catchAsync(async (req, res) => {
 });
 export const login = catchAsync(async (req, res) => {
     const parsed = loginSchema.safeParse(req.body);
-    if (!parsed.success)
+    if (!parsed.success) {
         throw new ApiError(400, parsed.error.message);
+    }
     const result = await loginUser(parsed.data);
     res.status(200).json({
         success: true,

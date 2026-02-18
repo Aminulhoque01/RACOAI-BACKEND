@@ -28,12 +28,17 @@ export const loginUser = async (payload) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
         throw new ApiError(401, "Invalid credentials");
-    if (!process.env.JWT_SECRET) {
+    if (!process.env.JWT_SECRET)
         throw new Error("JWT_SECRET is not defined");
-    }
-    if (!process.env.JWT_EXPIRES_IN) {
+    if (!process.env.JWT_EXPIRES_IN)
         throw new Error("JWT_EXPIRES_IN is not defined");
-    }
-    const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+    // ✅ Type assertions
+    const secret = process.env.JWT_SECRET;
+    const expiresIn = process.env.JWT_EXPIRES_IN;
+    const token = jwt.sign({
+        id: user._id.toString(),
+        email: user.email,
+        role: user.role,
+    }, secret, { expiresIn: '7d' });
     return { token, user };
 };

@@ -55,7 +55,7 @@ export const loginUser = async (payload: any) => {
       role: user.role,
     },
     secret,
-    { expiresIn: '7d' } // string like "7d", "1h", etc.
+    { expiresIn: '7d' }  
   );
 
   return { token, user };
