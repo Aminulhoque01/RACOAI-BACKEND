@@ -12,9 +12,11 @@ import { submissionRoutes } from "./modules/submissions/submission.route.js";
 dotenv.config();
 const app = express();
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // frontend URL
+    credentials: true, // allow cookies
+}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 // MongoDB Connect Function
 const connectDB = async () => {
     if (!process.env.MONGO_URI) {

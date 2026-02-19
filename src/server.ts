@@ -15,9 +15,17 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // frontend URL
+    credentials: true,              // allow cookies
+  })
+);
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+ 
+
+ 
+ 
 
 // MongoDB Connect Function
 const connectDB = async () => {
@@ -39,6 +47,8 @@ app.get("/", (req: Request, res: Response) => {
   res.json({ message: "🚀 RacoAI Backend Running Successfully!" });
 });
 
+
+ 
 
 //routes
 
@@ -65,6 +75,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     message: err.message || "Internal Server Error"
   });
 });
+
+ 
 
 // Server Start
 const PORT = process.env.PORT || 5000;
