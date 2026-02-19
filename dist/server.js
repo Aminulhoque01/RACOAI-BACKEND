@@ -13,8 +13,11 @@ dotenv.config();
 const app = express();
 // Middleware
 app.use(cors({
-    origin: "http://localhost:3000", // frontend URL
-    credentials: true, // allow cookies
+    origin: [
+        "http://localhost:3000",
+        "https://racoai-frontend.vercel.app"
+    ],
+    credentials: true,
 }));
 app.use(express.json());
 // MongoDB Connect Function
