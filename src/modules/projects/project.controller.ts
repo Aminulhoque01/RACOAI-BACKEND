@@ -5,6 +5,7 @@ import { AuthRequest } from "../../middlewares/auth.middleware.js";
 import {
   assignSolverToProject,
   createProject,
+  getallProjects,
   getBuyerProjects,
   getOpenProjects,
 } from "./project.service.js";
@@ -34,6 +35,14 @@ export const myProjects = catchAsync(async (req: AuthRequest, res: Response) => 
 
 export const openProjects = catchAsync(async (req:any, res: Response) => {
   const projects = await getOpenProjects();
+
+  res.status(200).json({
+    success: true,
+    data: projects,
+  });
+});
+export const allProjects = catchAsync(async (req:any, res: Response) => {
+  const projects = await getallProjects();
 
   res.status(200).json({
     success: true,

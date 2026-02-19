@@ -19,6 +19,9 @@ export const getBuyerProjects = async (buyerId: string) => {
 export const getOpenProjects = async () => {
   return await Project.find({ status: "OPEN" }).populate("buyerId", "name email");
 };
+export const getallProjects = async () => {
+  return await Project.find().populate("buyerId", "name email");
+};
 
 export const assignSolverToProject = async (
   projectId: string,

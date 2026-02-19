@@ -2,6 +2,7 @@ import { Router } from "express";
 import { protect } from "../../middlewares/auth.middleware.js";
 import { authorize } from "../../middlewares/role.middleware.js";
 import {
+  allProjects,
   assignSolver,
   createNewProject,
   myProjects,
@@ -16,6 +17,7 @@ router.get("/my", protect, authorize("BUYER"), myProjects);
 
 // solver browse
 router.get("/open", protect, authorize("SOLVER"), openProjects);
+router.get("/", protect, authorize("SOLVER"), allProjects);
 
 // buyer assign solver
 router.post("/:id/assign", protect, authorize("BUYER"), assignSolver);

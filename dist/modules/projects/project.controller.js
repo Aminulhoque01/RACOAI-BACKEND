@@ -1,6 +1,6 @@
 import { catchAsync } from "../../utils/catchAsync.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { assignSolverToProject, createProject, getBuyerProjects, getOpenProjects, } from "./project.service.js";
+import { assignSolverToProject, createProject, getallProjects, getBuyerProjects, getOpenProjects, } from "./project.service.js";
 import { assignSolverSchema, createProjectSchema } from "./project.validation.js";
 export const createNewProject = catchAsync(async (req, res) => {
     const parsed = createProjectSchema.safeParse(req.body);
@@ -22,6 +22,13 @@ export const myProjects = catchAsync(async (req, res) => {
 });
 export const openProjects = catchAsync(async (req, res) => {
     const projects = await getOpenProjects();
+    res.status(200).json({
+        success: true,
+        data: projects,
+    });
+});
+export const allProjects = catchAsync(async (req, res) => {
+    const projects = await getallProjects();
     res.status(200).json({
         success: true,
         data: projects,
